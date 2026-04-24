@@ -1,0 +1,35 @@
+# Dependencies
+node_modules/
+bin/
+obj/
+
+# Build output
+dist/
+build/
+*.dll
+*.pdb
+
+# Env files
+.env
+.env.local
+.env.*.local
+appsettings.Development.json
+appsettings.Production.json
+
+# IDE
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Claude workspace
+.claude/
