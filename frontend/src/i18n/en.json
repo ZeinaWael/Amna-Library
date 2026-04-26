@@ -1,0 +1,162 @@
+{
+  "common": {
+    "appName": "Maktabaty",
+    "schoolName": "Amna Bint Al-Arqam Al-Makhzumiya Secondary School for Girls",
+    "schoolNameShort": "Amna Bint Al-Arqam — Secondary for Girls",
+    "ministry": "Ministry of Education — State of Qatar",
+    "search": "Search",
+    "searchPlaceholder": "Search books, authors…",
+    "loading": "Loading…",
+    "error": "Something went wrong.",
+    "retry": "Retry",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "actions": "Actions",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "page": "Page",
+    "of": "of",
+    "english": "English",
+    "arabic": "العربية",
+    "light": "Light",
+    "dark": "Dark",
+    "logout": "Logout",
+    "empty": "Nothing to show yet.",
+    "yes": "Yes",
+    "no": "No",
+    "confirm": "Confirm",
+    "all": "All"
+  },
+  "nav": {
+    "home": "Home",
+    "browse": "Browse",
+    "admin": "Admin",
+    "adminLogin": "Admin login"
+  },
+  "home": {
+    "heroTitle": "Read freely, anywhere.",
+    "heroSubtitle": "A curated, ad-free library you can read in your browser or download.",
+    "browseAll": "Browse the library",
+    "featured": "Featured books",
+    "recent": "New additions",
+    "latestReviews": "Latest reader reviews"
+  },
+  "browse": {
+    "title": "Browse the library",
+    "filter": "Filter",
+    "genre": "Genre",
+    "language": "Language",
+    "year": "Year",
+    "sort": "Sort",
+    "newest": "Newest",
+    "topRated": "Top rated",
+    "mostDownloaded": "Most downloaded",
+    "any": "Any"
+  },
+  "book": {
+    "by": "by",
+    "year": "Year",
+    "language": "Language",
+    "genre": "Genre",
+    "rating": "Rating",
+    "reviews": "reviews",
+    "readOnline": "Read online",
+    "download": "Download",
+    "description": "About this book",
+    "reviewsTitle": "Reader reviews",
+    "leaveReview": "Leave a review",
+    "form": {
+      "name": "Your name",
+      "email": "Your email",
+      "rating": "Rating",
+      "content": "Your review",
+      "submit": "Submit review",
+      "thanks": "Thanks! Your review is awaiting approval.",
+      "duplicate": "You've already submitted a review for this book.",
+      "validation": {
+        "nameMin": "Name must be at least 2 characters.",
+        "emailInvalid": "Please enter a valid email.",
+        "ratingRange": "Rating must be between 1 and 5.",
+        "contentMin": "Review must be at least 10 characters."
+      }
+    }
+  },
+  "reader": {
+    "page": "Page",
+    "zoomIn": "Zoom in",
+    "zoomOut": "Zoom out",
+    "fullscreen": "Fullscreen",
+    "exitFullscreen": "Exit fullscreen",
+    "focus": "Focus mode",
+    "exitFocus": "Exit focus",
+    "loading": "Loading PDF…",
+    "error": "Failed to load this book."
+  },
+  "admin": {
+    "title": "Admin",
+    "dashboard": "Dashboard",
+    "books": "Books",
+    "authors": "Authors",
+    "genres": "Categories",
+    "reviews": "Reviews",
+    "stats": {
+      "totalBooks": "Total books",
+      "publishedBooks": "Published",
+      "pendingReviews": "Pending reviews",
+      "approvedReviews": "Approved reviews",
+      "downloads": "Downloads",
+      "views": "Views"
+    },
+    "login": {
+      "title": "Admin sign-in",
+      "subtitle": "Sign in to manage Maktabaty's library.",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Sign in",
+      "invalid": "Invalid credentials.",
+      "secureNote": "Secure session — restricted to authorised staff."
+    },
+    "dashboardSubtitle": "Library overview at a glance.",
+    "tabs": {
+      "pending": "Pending",
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "all": "All"
+    },
+    "actions": {
+      "approve": "Approve",
+      "reject": "Reject",
+      "publish": "Publish",
+      "unpublish": "Unpublish",
+      "uploadCover": "Upload cover",
+      "uploadFile": "Upload PDF"
+    },
+    "confirmDelete": "Are you sure you want to delete this?",
+    "authorHasBooks": "This author has books — reassign or delete those first.",
+    "genreHasBooks": "This category has books — reassign or delete those first.",
+    "categories": "Categories",
+    "category": {
+      "create": "Create category",
+      "edit": "Edit category",
+      "name": "Category name",
+      "slug": "Slug",
+      "icon": "Category icon",
+      "color": "Category colour",
+      "customColor": "Custom",
+      "preview": "Live preview",
+      "previewPlaceholder": "Category name",
+      "errors": {
+        "nameRequired": "Please enter a category name."
+      }
+    }
+  },
+  "errors": {
+    "notFound": "Page not found.",
+    "goHome": "Go home",
+    "unauthorized": "Please sign in to continue."
+  }
+}
