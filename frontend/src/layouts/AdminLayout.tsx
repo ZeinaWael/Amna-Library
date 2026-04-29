@@ -85,7 +85,7 @@ export function AdminLayout() {
               className="btn-ghost"
               onClick={() => {
                 logout();
-                nav('/admin/login');
+                nav('/');
               }}
             >
               <span className="icon text-base">logout</span>

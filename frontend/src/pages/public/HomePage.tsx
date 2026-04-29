@@ -15,22 +15,38 @@ export default function HomePage() {
   return (
     <div className="mx-auto max-w-6xl space-y-12 px-4 py-10">
       <section
-        className="relative overflow-hidden rounded-2xl p-10 text-white shadow-lg"
-        style={{ background: 'linear-gradient(135deg, #8b1a3a 0%, #a52342 55%, #6e1330 100%)' }}
+        className="hero-card relative overflow-hidden rounded-3xl p-8 text-white shadow-lg sm:p-12"
+        style={{
+          background:
+            'linear-gradient(135deg, #7a1632 0%, #6e1330 45%, #5b0f28 100%)',
+        }}
       >
         <div
           aria-hidden="true"
           className="pointer-events-none absolute -top-24 -end-16 h-72 w-72 rounded-full blur-3xl"
-          style={{ background: 'rgba(255,255,255,0.10)' }}
+          style={{ background: 'rgba(255, 220, 160, 0.18)' }}
         />
-        <h1 className="relative text-3xl font-bold sm:text-5xl">{t('home.heroTitle')}</h1>
-        <p className="relative mt-3 max-w-xl text-white/90">{t('home.heroSubtitle')}</p>
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute -bottom-32 -start-20 h-72 w-72 rounded-full blur-3xl"
+          style={{ background: 'rgba(255, 255, 255, 0.10)' }}
+        />
+        <h1 className="relative text-3xl font-bold leading-tight sm:text-5xl">
+          {t('home.heroTitle')}
+        </h1>
+        <p className="relative mt-4 max-w-2xl text-base leading-relaxed text-white/90 sm:text-lg">
+          {t('home.heroSubtitle')}
+        </p>
         <Link
           to="/browse"
-          className="relative mt-6 inline-flex items-center gap-2 rounded-xl bg-white px-5 py-2.5 text-sm font-semibold shadow transition hover:-translate-y-0.5 hover:shadow-xl"
-          style={{ color: '#8b1a3a' }}
+          className="hero-cta relative mt-7 inline-flex items-center gap-2 rounded-xl bg-white px-6 py-3 text-sm font-semibold shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl"
+          style={{ color: '#7a1632' }}
         >
-          {t('home.browseAll')} →
+          <span className="icon text-base">menu_book</span>
+          {t('home.browseAll')}
+          <span className="arrow icon text-base transition-transform duration-300">
+            arrow_forward
+          </span>
         </Link>
       </section>
 

@@ -4,14 +4,12 @@ import { useTranslation } from 'react-i18next';
 import { Document, Page, pdfjs } from 'react-pdf';
 import 'react-pdf/dist/Page/AnnotationLayer.css';
 import 'react-pdf/dist/Page/TextLayer.css';
+import pdfWorkerSrc from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
 import { useBook } from '../../api/hooks';
 import { Skeleton } from '../../components/Skeleton';
 import { ErrorState } from '../../components/ErrorState';
 
-pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-  'pdfjs-dist/build/pdf.worker.min.mjs',
-  import.meta.url
-).toString();
+pdfjs.GlobalWorkerOptions.workerSrc = pdfWorkerSrc;
 
 export default function ReaderPage() {
   const { id = '' } = useParams();
@@ -24,10 +22,15 @@ export default function ReaderPage() {
   const [zoom, setZoom] = useState(1);
   const [focus, setFocus] = useState(false);
   const [toolbarVisible, setToolbarVisible] = useState(true);
+  const [loadError, setLoadError] = useState<string | null>(null);
   const idleTimer = useRef<number | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const file = useMemo(() => book?.fileUrl ?? null, [book]);
+  // Stable object reference so react-pdf doesn't re-fetch on every render.
+  const file = useMemo(
+    () => (book?.fileUrl ? { url: book.fileUrl, withCredentials: false } : null),
+    [book?.fileUrl],
+  );
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -84,14 +87,31 @@ export default function ReaderPage() {
         </div>
       </div>
       <div className="flex justify-center p-4">
-        <Document
-          file={file}
-          loading={<div className="p-12 text-center text-slate-500">{t('reader.loading')}</div>}
-          error={<ErrorState message={t('reader.error')} />}
-          onLoadSuccess={(d) => setPages(d.numPages)}
-        >
-          <Page pageNumber={page} scale={zoom} renderTextLayer renderAnnotationLayer />
-        </Document>
+        {loadError ? (
+          <div className="w-full max-w-xl">
+            <ErrorState
+              message={`${t('reader.error')} — ${loadError}`}
+              onRetry={() => {
+                setLoadError(null);
+                void refetch();
+              }}
+            />
+          </div>
+        ) : (
+          <Document
+            file={file}
+            loading={<div className="p-12 text-center text-slate-500">{t('reader.loading')}</div>}
+            error={<div />}
+            onLoadSuccess={(d) => {
+              setPages(d.numPages);
+              setLoadError(null);
+            }}
+            onLoadError={(err) => setLoadError(err?.message ?? 'Unknown error')}
+            onSourceError={(err) => setLoadError(err?.message ?? 'Source error')}
+          >
+            <Page pageNumber={page} scale={zoom} renderTextLayer renderAnnotationLayer />
+          </Document>
+        )}
       </div>
     </div>
   );

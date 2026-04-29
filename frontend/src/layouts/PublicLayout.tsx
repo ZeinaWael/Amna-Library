@@ -6,6 +6,7 @@ import { SearchBox } from '../components/SearchBox';
 import { AmbientOrbs } from '../components/AmbientOrbs';
 import { ParticleCanvas } from '../components/ParticleCanvas';
 import { InstitutionalHeader } from '../components/InstitutionalHeader';
+import { BRAND_LOGO_URL } from '../components/BrandLogos';
 
 export function PublicLayout() {
   const { t } = useTranslation();
@@ -21,20 +22,34 @@ export function PublicLayout() {
 
       <header className="navbar-maroon sticky top-0 z-30">
         <div className="navbar-inner mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3">
-          <Link to="/" className="flex items-center gap-2" aria-label={t('common.appName')}>
-            <span className="brand-mark font-display text-2xl font-bold">
-              {t('common.appName')}
-            </span>
-            <span className="hidden text-[11px] text-white/70 md:inline">
-              · {t('common.schoolNameShort')}
+          <Link
+            to="/"
+            className="group flex items-center gap-3"
+            aria-label={t('common.appName')}
+          >
+            <img
+              src={BRAND_LOGO_URL}
+              alt=""
+              aria-hidden="true"
+              className="logo-img logo-fade h-12 w-12 shrink-0 rounded-lg bg-white/85 object-contain p-1 shadow-md sm:h-14 sm:w-14"
+            />
+            <span className="flex flex-col leading-tight">
+              <span className="brand-mark font-display text-2xl font-bold transition-transform duration-300 group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5 sm:text-[1.7rem]">
+                {t('common.appName')}
+              </span>
+              <span className="hidden text-[11px] text-soft sm:inline">
+                {t('common.schoolNameShort')}
+              </span>
             </span>
           </Link>
 
           <nav className="hidden items-center gap-1 md:flex">
             <NavLink to="/" end className={navClass}>
+              <span className="icon me-1 text-[16px] align-middle">home</span>
               {t('nav.home')}
             </NavLink>
             <NavLink to="/browse" className={navClass}>
+              <span className="icon me-1 text-[16px] align-middle">menu_book</span>
               {t('nav.browse')}
             </NavLink>
           </nav>
@@ -67,6 +82,18 @@ export function PublicLayout() {
           <p className="mt-1 text-sm text-soft">{t('common.ministry')}</p>
           <p className="mt-5 text-xs text-soft">
             © 2026 {t('common.appName')} — {t('common.schoolName')}
+          </p>
+          <p className="mt-3">
+            <a
+              href="https://www.linkedin.com/in/zeina-wael-0a539634b"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="linkedin-credit text-xs"
+              aria-label={t('footer.creditAria')}
+            >
+              <span className="icon">link</span>
+              {t('footer.credit')}
+            </a>
           </p>
         </div>
       </footer>

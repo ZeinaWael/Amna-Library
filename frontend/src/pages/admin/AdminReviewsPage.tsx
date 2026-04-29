@@ -68,7 +68,24 @@ export default function AdminReviewsPage() {
                 </div>
                 <div className="flex items-center gap-2">
                   <StarRating value={r.rating} />
-                  <span className="chip">{r.status}</span>
+                  <span
+                    className={`status-badge ${
+                      r.status === 'Approved'
+                        ? 'status-badge--success'
+                        : r.status === 'Rejected'
+                          ? 'status-badge--danger'
+                          : 'status-badge--warning status-badge--pulse'
+                    }`}
+                  >
+                    <span className="icon">
+                      {r.status === 'Approved'
+                        ? 'check_circle'
+                        : r.status === 'Rejected'
+                          ? 'cancel'
+                          : 'schedule'}
+                    </span>
+                    {r.status}
+                  </span>
                 </div>
               </div>
               <p className="mt-2 whitespace-pre-line text-sm text-slate-700 dark:text-slate-300">{r.content}</p>

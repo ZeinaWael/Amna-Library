@@ -26,7 +26,11 @@ export default function AdminAuthorsPage() {
       toast({ type: 'success', message: t('admin.toast.deleted') });
     } catch (e) {
       const msg =
-        e instanceof ApiError && e.status === 409 ? t('admin.authorHasBooks') : 'Failed.';
+        e instanceof ApiError && e.status === 409
+          ? t('admin.authorHasBooks')
+          : e instanceof ApiError
+            ? e.message
+            : t('admin.toast.actionFailed');
       setError(msg);
       toast({ type: 'error', message: msg });
     }
@@ -174,9 +178,9 @@ function AuthorFormModal({
       });
       onSaved();
     } catch (e) {
-      const msg = e instanceof ApiError ? e.message : 'Failed.';
+      const msg = e instanceof ApiError ? e.message : t('admin.toast.saveFailed');
       setError(msg);
-      toast({ type: 'error', message: t('admin.toast.saveFailed') });
+      toast({ type: 'error', message: msg });
     } finally {
       setBusy(false);
     }

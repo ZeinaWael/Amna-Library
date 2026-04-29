@@ -17,10 +17,16 @@ export default function BrowsePage() {
 
   return (
     <div className="mx-auto max-w-6xl space-y-6 px-4 py-8">
-      <h1 className="text-2xl font-semibold">{t('browse.title')}</h1>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <h1 className="font-display text-3xl font-bold gradient-text">{t('browse.title')}</h1>
+        <span className="chip">
+          <span className="icon me-1 text-[14px]">filter_alt</span>
+          {t('browse.filter')}
+        </span>
+      </div>
 
-      <div className="flex flex-wrap items-end gap-4 rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
-        <Field label={t('browse.genre')}>
+      <div className="filter-card">
+        <Field label={t('browse.genre')} icon="category">
           <select
             className="input"
             value={filters.genre ?? ''}
@@ -32,7 +38,7 @@ export default function BrowsePage() {
             ))}
           </select>
         </Field>
-        <Field label={t('browse.language')}>
+        <Field label={t('browse.language')} icon="translate">
           <select
             className="input"
             value={filters.language ?? ''}
@@ -43,11 +49,11 @@ export default function BrowsePage() {
             <option value="ar">العربية</option>
           </select>
         </Field>
-        <Field label={t('browse.year')}>
+        <Field label={t('browse.year')} icon="event">
           <input
             type="number"
             inputMode="numeric"
-            className="input w-32"
+            className="input"
             placeholder={t('browse.any')}
             min={1000}
             max={new Date().getFullYear()}
@@ -65,7 +71,7 @@ export default function BrowsePage() {
             }}
           />
         </Field>
-        <Field label={t('browse.sort')}>
+        <Field label={t('browse.sort')} icon="sort">
           <select
             className="input"
             value={filters.sort ?? 'newest'}
@@ -101,10 +107,21 @@ export default function BrowsePage() {
   );
 }
 
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
+function Field({
+  label,
+  children,
+  icon,
+}: {
+  label: string;
+  children: React.ReactNode;
+  icon?: string;
+}) {
   return (
-    <label className="flex flex-col">
-      <span className="label">{label}</span>
+    <label className="filter-field">
+      <span className="label inline-flex items-center gap-1.5">
+        {icon && <span className="icon text-[14px] text-accent">{icon}</span>}
+        {label}
+      </span>
       {children}
     </label>
   );

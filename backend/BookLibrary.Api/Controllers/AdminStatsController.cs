@@ -23,21 +23,21 @@ public class AdminStatsController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<AdminStatsDto>> Get(CancellationToken ct)
     {
-        var totalBooks = _books.CountAsync(ct);
-        var publishedBooks = _books.CountPublishedAsync(ct);
-        var downloads = _books.SumDownloadsAsync(ct);
-        var views = _books.SumViewsAsync(ct);
-        var pending = _reviews.CountByStatusAsync(ReviewStatus.Pending, ct);
-        var approved = _reviews.CountByStatusAsync(ReviewStatus.Approved, ct);
-
-        await Task.WhenAll(totalBooks, publishedBooks, downloads, views, pending, approved);
+        // DbContext is not thread-safe — these MUST be awaited sequentially,
+        // not started in parallel and joined with Task.WhenAll.
+        var totalBooks = await _books.CountAsync(ct);
+        var publishedBooks = await _books.CountPublishedAsync(ct);
+        var downloads = await _books.SumDownloadsAsync(ct);
+        var views = await _books.SumViewsAsync(ct);
+        var pending = await _reviews.CountByStatusAsync(ReviewStatus.Pending, ct);
+        var approved = await _reviews.CountByStatusAsync(ReviewStatus.Approved, ct);
 
         return Ok(new AdminStatsDto(
-            totalBooks.Result,
-            publishedBooks.Result,
-            pending.Result,
-            approved.Result,
-            downloads.Result,
-            views.Result));
+            totalBooks,
+            publishedBooks,
+            pending,
+            approved,
+            downloads,
+            views));
     }
 }

@@ -38,8 +38,8 @@
     "adminLogin": "Admin login"
   },
   "home": {
-    "heroTitle": "Read freely, anywhere.",
-    "heroSubtitle": "A curated, ad-free library you can read in your browser or download.",
+    "heroTitle": "Amna Reads — the Virtual Library of Amna School",
+    "heroSubtitle": "Your gateway to knowledge and lifelong learning — a curated collection for the students of Amna Bint Al-Arqam Secondary School, available anytime, anywhere.",
     "browseAll": "Browse the library",
     "featured": "Featured books",
     "recent": "New additions",
@@ -140,7 +140,7 @@
     "genreHasBooks": "This category has books — reassign or delete those first.",
     "categories": "Categories",
     "category": {
-      "create": "Create category",
+      "create": "Add category",
       "edit": "Edit category",
       "name": "Category name",
       "slug": "Slug",
@@ -152,7 +152,62 @@
       "errors": {
         "nameRequired": "Please enter a category name."
       }
+    },
+    "book": {
+      "tagline": "Manage your digital library: add new books, edit existing ones, and publish them to readers.",
+      "create": "Add book",
+      "edit": "Edit book",
+      "modalSubtitle": "Fill in the book details below — you can publish it as soon as you save.",
+      "title": "Book title",
+      "author": "Author",
+      "genre": "Category",
+      "status": "Status",
+      "description": "Description",
+      "language": "Book language",
+      "year": "Publication year",
+      "isbn": "ISBN",
+      "featured": "Featured book",
+      "featuredHint": "Shown in the \"Featured books\" section on the home page.",
+      "publish": "Publish immediately on save",
+      "publishHint": "If unchecked the book is saved as a draft and stays hidden from readers.",
+      "uploading": "Uploading file…",
+      "placeholders": {
+        "title": "e.g. An Introduction to Modern Physics",
+        "description": "A short summary describing the book…"
+      },
+      "errors": {
+        "titleMin": "Title must be at least 2 characters.",
+        "descriptionMin": "Description must be at least 10 characters.",
+        "authorRequired": "Please select an author.",
+        "genreRequired": "Please select a category.",
+        "yearRange": "Year must be between 1000 and the current year.",
+        "fixForm": "Please fix the highlighted errors before saving."
+      }
+    },
+    "author": {
+      "tagline": "Manage your authors list: add new authors, edit their details, or remove them.",
+      "create": "Add author",
+      "edit": "Edit author",
+      "name": "Author name",
+      "bio": "Biography",
+      "photo": "Author photo",
+      "errors": {
+        "nameRequired": "Please enter the author's name."
+      }
+    },
+    "toast": {
+      "created": "Created successfully.",
+      "updated": "Updated successfully.",
+      "deleted": "Deleted successfully.",
+      "published": "Book published.",
+      "unpublished": "Book unpublished.",
+      "saveFailed": "Save failed. Please try again.",
+      "actionFailed": "Action failed."
     }
+  },
+  "footer": {
+    "credit": "© 2026 — Zeina Wael",
+    "creditAria": "Zeina Wael on LinkedIn"
   },
   "errors": {
     "notFound": "Page not found.",

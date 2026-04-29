@@ -43,7 +43,13 @@ export default function AdminGenresPage() {
       await api.delete(`/admin/genres/${g.id}`);
       void qc.invalidateQueries({ queryKey: ['genres'] });
     } catch (e) {
-      setError(e instanceof ApiError && e.status === 409 ? t('admin.genreHasBooks') : 'Failed.');
+      setError(
+        e instanceof ApiError && e.status === 409
+          ? t('admin.genreHasBooks')
+          : e instanceof ApiError
+            ? e.message
+            : t('admin.toast.actionFailed'),
+      );
     }
   };
 
@@ -73,35 +79,37 @@ export default function AdminGenresPage() {
         <EmptyState />
       ) : (
         <div className="card overflow-hidden p-0">
-          <table className="w-full text-sm">
-            <thead className="text-left text-xs uppercase tracking-wider text-soft" style={{ background: 'var(--bg-secondary)' }}>
+          <table className="admin-table">
+            <thead>
               <tr>
-                <th className="px-4 py-3">{t('admin.category.preview')}</th>
-                <th className="px-4 py-3">{t('admin.category.name')}</th>
-                <th className="px-4 py-3">{t('admin.category.slug')}</th>
-                <th className="px-4 py-3">{t('admin.books')}</th>
-                <th className="px-4 py-3 text-end">{t('common.actions')}</th>
+                <th>{t('admin.category.preview')}</th>
+                <th>{t('admin.category.name')}</th>
+                <th>{t('admin.category.slug')}</th>
+                <th>{t('admin.books')}</th>
+                <th className="text-end">{t('common.actions')}</th>
               </tr>
             </thead>
-            <tbody className="divide-y" style={{ borderColor: 'var(--border)' }}>
+            <tbody>
               {list.data.map((g) => (
                 <tr key={g.id}>
-                  <td className="px-4 py-3">
+                  <td>
                     <CategoryChip name={g.name} icon={g.icon ?? 'category'} color={g.color ?? 'var(--accent)'} />
                   </td>
-                  <td className="px-4 py-3 font-medium">{g.name}</td>
-                  <td className="px-4 py-3 text-soft">{g.slug}</td>
-                  <td className="px-4 py-3">{g.bookCount}</td>
-                  <td className="space-x-2 px-4 py-3 text-end">
+                  <td className="font-medium">{g.name}</td>
+                  <td className="text-soft">{g.slug}</td>
+                  <td>{g.bookCount}</td>
+                  <td className="space-x-2 text-end">
                     <button className="btn-ghost" onClick={() => setEditing(g)}>
-                      {t('common.edit')}
+                      <span className="icon text-base">edit</span>
+                      <span className="hidden sm:inline">{t('common.edit')}</span>
                     </button>
                     <button
                       className="btn-ghost"
                       style={{ color: 'var(--danger)' }}
                       onClick={() => remove(g)}
                     >
-                      {t('common.delete')}
+                      <span className="icon text-base">delete</span>
+                      <span className="hidden sm:inline">{t('common.delete')}</span>
                     </button>
                   </td>
                 </tr>
@@ -178,7 +186,7 @@ function CategoryFormModal({
       else await api.post(`/admin/genres`, body);
       onSaved();
     } catch (e) {
-      setError(e instanceof ApiError ? e.message : 'Failed.');
+      setError(e instanceof ApiError ? e.message : t('admin.toast.saveFailed'));
     } finally {
       setBusy(false);
     }

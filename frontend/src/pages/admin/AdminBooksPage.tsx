@@ -31,8 +31,11 @@ export default function AdminBooksPage() {
         type: 'success',
         message: target ? t('admin.toast.published') : t('admin.toast.unpublished'),
       });
-    } catch {
-      toast({ type: 'error', message: t('admin.toast.actionFailed') });
+    } catch (e) {
+      toast({
+        type: 'error',
+        message: e instanceof ApiError ? e.message : t('admin.toast.actionFailed'),
+      });
     }
   };
 
@@ -42,8 +45,11 @@ export default function AdminBooksPage() {
       await api.delete(`/admin/books/${b.id}`);
       void qc.invalidateQueries({ queryKey: ['admin', 'books'] });
       toast({ type: 'success', message: t('admin.toast.deleted') });
-    } catch {
-      toast({ type: 'error', message: t('admin.toast.actionFailed') });
+    } catch (e) {
+      toast({
+        type: 'error',
+        message: e instanceof ApiError ? e.message : t('admin.toast.actionFailed'),
+      });
     }
   };
 
@@ -92,11 +98,16 @@ export default function AdminBooksPage() {
                     <td>
                       <button
                         type="button"
-                        className={isPublished ? 'chip-active' : 'chip'}
+                        className={`status-badge ${
+                          isPublished
+                            ? 'status-badge--success'
+                            : 'status-badge--warning status-badge--pulse'
+                        }`}
                         onClick={() => togglePublish(b, !isPublished)}
+                        title={isPublished ? t('admin.actions.unpublish') : t('admin.actions.publish')}
                       >
-                        <span className="icon me-1 text-[14px]">
-                          {isPublished ? 'check_circle' : 'pending'}
+                        <span className="icon">
+                          {isPublished ? 'check_circle' : 'schedule'}
                         </span>
                         {isPublished ? t('admin.actions.unpublish') : t('admin.actions.publish')}
                       </button>
@@ -170,6 +181,7 @@ function BookFormModal({
     genreId: initial?.genreId ?? '',
     isFeatured: false,
   });
+  const [publishOnSave, setPublishOnSave] = useState<boolean>(!initial);
   const [coverFile, setCoverFile] = useState<File | null>(null);
   const [pdfFile, setPdfFile] = useState<File | null>(null);
   const [progress, setProgress] = useState<number | null>(null);
@@ -223,14 +235,18 @@ function BookFormModal({
             setProgress(e.total ? Math.round((e.loaded / e.total) * 100) : null),
         });
       }
+      if (publishOnSave && bookId) {
+        await api.patch(`/admin/books/${bookId}/publish`, { isPublished: true });
+      }
       toast({
         type: 'success',
         message: initial ? t('admin.toast.updated') : t('admin.toast.created'),
       });
       onSaved();
     } catch (e) {
-      setError(e instanceof ApiError ? e.message : 'Failed.');
-      toast({ type: 'error', message: t('admin.toast.saveFailed') });
+      const msg = e instanceof ApiError ? e.message : t('admin.toast.saveFailed');
+      setError(msg);
+      toast({ type: 'error', message: msg });
     } finally {
       setBusy(false);
       setProgress(null);
@@ -358,22 +374,41 @@ function BookFormModal({
             </Field>
           </div>
 
-          <label
-            className="flex cursor-pointer items-center gap-3 rounded-xl border border-soft p-3 transition hover:border-[var(--accent)]"
-            style={{ background: 'var(--bg-secondary)' }}
-          >
-            <input
-              type="checkbox"
-              className="h-4 w-4 cursor-pointer accent-[var(--accent)]"
-              checked={form.isFeatured}
-              onChange={(e) => set('isFeatured', e.target.checked)}
-            />
-            <span className="flex-1">
-              <span className="block text-sm font-semibold">{t('admin.book.featured')}</span>
-              <span className="block text-xs text-soft">{t('admin.book.featuredHint')}</span>
-            </span>
-            <span className="icon text-base text-accent">star</span>
-          </label>
+          <div className="grid gap-3 sm:grid-cols-2">
+            <label
+              className="flex cursor-pointer items-center gap-3 rounded-xl border border-soft p-3 transition hover:-translate-y-0.5 hover:border-[var(--accent)]"
+              style={{ background: 'var(--bg-secondary)' }}
+            >
+              <input
+                type="checkbox"
+                className="h-4 w-4 cursor-pointer accent-[var(--accent)]"
+                checked={form.isFeatured}
+                onChange={(e) => set('isFeatured', e.target.checked)}
+              />
+              <span className="flex-1">
+                <span className="block text-sm font-semibold">{t('admin.book.featured')}</span>
+                <span className="block text-xs text-soft">{t('admin.book.featuredHint')}</span>
+              </span>
+              <span className="icon text-base text-accent">star</span>
+            </label>
+
+            <label
+              className="flex cursor-pointer items-center gap-3 rounded-xl border border-soft p-3 transition hover:-translate-y-0.5 hover:border-[var(--accent)]"
+              style={{ background: 'var(--bg-secondary)' }}
+            >
+              <input
+                type="checkbox"
+                className="h-4 w-4 cursor-pointer accent-[var(--accent)]"
+                checked={publishOnSave}
+                onChange={(e) => setPublishOnSave(e.target.checked)}
+              />
+              <span className="flex-1">
+                <span className="block text-sm font-semibold">{t('admin.book.publish')}</span>
+                <span className="block text-xs text-soft">{t('admin.book.publishHint')}</span>
+              </span>
+              <span className="icon text-base text-accent">visibility</span>
+            </label>
+          </div>
 
           <div className="grid gap-4 sm:grid-cols-2">
             <FileDrop

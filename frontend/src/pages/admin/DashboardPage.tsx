@@ -39,13 +39,8 @@ export default function DashboardPage() {
 
       <div className="stagger grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {cards.map((c, i) => (
-          <div key={c.label} className="card-hover relative overflow-hidden">
-            <span
-              className="icon absolute -end-2 -top-2 text-7xl opacity-[0.06]"
-              style={{ color: 'var(--accent)' }}
-            >
-              {ICONS[i] ?? 'insights'}
-            </span>
+          <div key={c.label} className="stat-tile">
+            <span className="icon stat-icon">{ICONS[i] ?? 'insights'}</span>
             <p className="text-xs uppercase tracking-wider text-soft">{c.label}</p>
             <p className="mt-2 font-display text-4xl font-bold gradient-text">
               <Counter value={c.value} />
