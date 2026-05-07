@@ -8,9 +8,11 @@ namespace BookLibrary.Api.Repositories;
 public interface IBookRepository
 {
     Task<Book?> GetByIdAsync(Guid id, bool includeNav, CancellationToken ct);
+    Task<List<Book>> GetPublishedByIdsAsync(IReadOnlyList<Guid> ids, CancellationToken ct);
     Task<(IReadOnlyList<Book> items, int total)> QueryPublishedAsync(BookQuery query, CancellationToken ct);
     Task<(IReadOnlyList<Book> items, int total)> SearchPublishedAsync(string q, int page, int pageSize, CancellationToken ct);
     Task<List<Book>> FeaturedAsync(int take, CancellationToken ct);
+    Task<List<(Guid Id, DateTime UpdatedAt)>> ListPublishedSitemapEntriesAsync(int max, CancellationToken ct);
     Task<(IReadOnlyList<Book> items, int total)> ListAdminAsync(int page, int pageSize, CancellationToken ct);
     void Add(Book book);
     void Update(Book book);
@@ -35,6 +37,15 @@ public class BookRepository : IBookRepository
         var q = _db.Books.AsQueryable();
         if (includeNav) q = q.Include(b => b.Author).Include(b => b.Genre);
         return q.FirstOrDefaultAsync(b => b.Id == id, ct);
+    }
+
+    public Task<List<Book>> GetPublishedByIdsAsync(IReadOnlyList<Guid> ids, CancellationToken ct)
+    {
+        if (ids.Count == 0) return Task.FromResult(new List<Book>());
+        return _db.Books.AsNoTracking()
+            .Include(b => b.Author).Include(b => b.Genre)
+            .Where(b => b.IsPublished && ids.Contains(b.Id))
+            .ToListAsync(ct);
     }
 
     public async Task<(IReadOnlyList<Book> items, int total)> QueryPublishedAsync(BookQuery query, CancellationToken ct)
@@ -96,6 +107,17 @@ public class BookRepository : IBookRepository
             .OrderByDescending(b => b.CreatedAt)
             .Take(take)
             .ToListAsync(ct);
+
+    public async Task<List<(Guid Id, DateTime UpdatedAt)>> ListPublishedSitemapEntriesAsync(int max, CancellationToken ct)
+    {
+        var rows = await _db.Books.AsNoTracking()
+            .Where(b => b.IsPublished)
+            .OrderByDescending(b => b.UpdatedAt)
+            .Take(max)
+            .Select(b => new { b.Id, b.UpdatedAt })
+            .ToListAsync(ct);
+        return rows.Select(r => (r.Id, r.UpdatedAt)).ToList();
+    }
 
     public async Task<(IReadOnlyList<Book> items, int total)> ListAdminAsync(int page, int pageSize, CancellationToken ct)
     {

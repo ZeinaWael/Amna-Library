@@ -7,6 +7,9 @@ import { useBook, useBookReviews, useDownload, useSubmitReview } from '../../api
 import { Skeleton } from '../../components/Skeleton';
 import { ErrorState } from '../../components/ErrorState';
 import { StarRating } from '../../components/StarRating';
+import { HeartButton } from '../../components/HeartButton';
+import { Seo } from '../../components/seo/Seo';
+import { absoluteUrl } from '../../lib/siteUrl';
 import { ApiError } from '../../types/api';
 import { useState } from 'react';
 
@@ -35,8 +38,43 @@ export default function BookDetailPage() {
   }
   const b = book.data;
 
+  const plainDescription = (b.description ?? '').replace(/\s+/g, ' ').trim();
+  const seoDescription =
+    plainDescription.length > 160 ? `${plainDescription.slice(0, 157).trimEnd()}…` : plainDescription;
+
+  const jsonLd: Record<string, unknown> = {
+    '@context': 'https://schema.org',
+    '@type': 'Book',
+    name: b.title,
+    author: { '@type': 'Person', name: b.authorName },
+    description: plainDescription || b.title,
+    inLanguage: b.language,
+    url: absoluteUrl(`/books/${b.id}`),
+  };
+  if (b.coverUrl) jsonLd.image = b.coverUrl;
+  if (b.isbn) jsonLd.isbn = b.isbn;
+  if (b.year) jsonLd.datePublished = String(b.year);
+  if (b.reviewCount > 0) {
+    jsonLd.aggregateRating = {
+      '@type': 'AggregateRating',
+      ratingValue: Number(b.averageRating),
+      reviewCount: b.reviewCount,
+      bestRating: 5,
+      worstRating: 1,
+    };
+  }
+
   return (
     <div className="mx-auto max-w-4xl space-y-8 px-4 py-8">
+      <Seo
+        title={b.title}
+        description={seoDescription || b.title}
+        canonical={`/books/${b.id}`}
+        image={b.coverUrl ?? undefined}
+        type="book"
+      >
+        <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
+      </Seo>
       <article className="grid grid-cols-1 gap-6 md:grid-cols-[200px_1fr]">
         <div className="aspect-[3/4] w-full overflow-hidden rounded-xl bg-slate-100 dark:bg-slate-800">
           {b.coverUrl ? (
@@ -60,7 +98,7 @@ export default function BookDetailPage() {
             <span className="text-slate-500">({b.reviewCount} {t('book.reviews')})</span>
           </div>
           <p className="whitespace-pre-line text-sm leading-relaxed text-slate-700 dark:text-slate-300">{b.description}</p>
-          <div className="flex flex-wrap gap-3 pt-2">
+          <div className="flex flex-wrap items-center gap-3 pt-2">
             {b.fileUrl && (
               <button className="btn-primary" onClick={() => nav(`/books/${b.id}/read`)}>
                 {t('book.readOnline')}
@@ -71,6 +109,7 @@ export default function BookDetailPage() {
                 {t('book.download')}
               </button>
             )}
+            <HeartButton bookId={b.id} />
           </div>
         </div>
       </article>

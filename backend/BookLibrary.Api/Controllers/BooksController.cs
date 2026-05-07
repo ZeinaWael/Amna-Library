@@ -1,5 +1,6 @@
 using BookLibrary.Api.Contracts.Requests;
 using BookLibrary.Api.Contracts.Responses;
+using BookLibrary.Api.Infrastructure.Middleware;
 using BookLibrary.Api.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,6 +26,27 @@ public class BooksController : ControllerBase
     [HttpGet("featured")]
     public async Task<ActionResult<List<BookSummaryDto>>> Featured([FromQuery] int take = 6, CancellationToken ct = default)
         => Ok(await _books.FeaturedAsync(Math.Clamp(take, 1, 24), ct));
+
+    [HttpGet("by-ids")]
+    public async Task<ActionResult<List<BookSummaryDto>>> ByIds([FromQuery] string? ids, CancellationToken ct)
+    {
+        if (string.IsNullOrWhiteSpace(ids))
+            return Ok(new List<BookSummaryDto>());
+
+        var raw = ids.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+        if (raw.Length > 50)
+            throw AppException.BadRequest("Too many ids (max 50).");
+
+        var parsed = new List<Guid>(raw.Length);
+        foreach (var s in raw)
+        {
+            if (!Guid.TryParse(s, out var g))
+                throw AppException.BadRequest($"Invalid id: {s}");
+            parsed.Add(g);
+        }
+
+        return Ok(await _books.ListPublishedByIdsAsync(parsed, ct));
+    }
 
     [HttpGet("search")]
     public async Task<ActionResult<PagedResult<BookSummaryDto>>> Search([FromQuery] string q, [FromQuery] int page = 1, [FromQuery] int pageSize = 12, CancellationToken ct = default)

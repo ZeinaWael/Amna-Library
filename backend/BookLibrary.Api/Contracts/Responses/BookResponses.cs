@@ -11,7 +11,8 @@ public record BookSummaryDto(
     Guid AuthorId,
     string AuthorName,
     Guid GenreId,
-    string GenreName);
+    string GenreName,
+    int? PageCount);
 
 public record BookDetailDto(
     Guid Id,

@@ -8,6 +8,12 @@ public class ApiResponseWrappingFilter : IAsyncActionFilter
 {
     public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
     {
+        if (context.ActionDescriptor.EndpointMetadata.OfType<SkipResponseWrappingAttribute>().Any())
+        {
+            await next();
+            return;
+        }
+
         var executed = await next();
         if (executed.Result is ObjectResult obj)
         {

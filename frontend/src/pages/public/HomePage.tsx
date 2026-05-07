@@ -2,9 +2,11 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useBooks, useFeatured, useLatestReviews } from '../../api/hooks';
 import { BookCard } from '../../components/BookCard';
+import { ContinueReadingRail } from '../../components/home/ContinueReadingRail';
 import { ErrorState } from '../../components/ErrorState';
 import { Skeleton } from '../../components/Skeleton';
 import { StarRating } from '../../components/StarRating';
+import { Seo } from '../../components/seo/Seo';
 
 export default function HomePage() {
   const { t } = useTranslation();
@@ -14,6 +16,12 @@ export default function HomePage() {
 
   return (
     <div className="mx-auto max-w-6xl space-y-12 px-4 py-10">
+      <Seo
+        title={t('seo.home.title')}
+        description={t('seo.home.description')}
+        canonical="/"
+        type="website"
+      />
       <section
         className="hero-card relative overflow-hidden rounded-3xl p-8 text-white shadow-lg sm:p-12"
         style={{
@@ -49,6 +57,8 @@ export default function HomePage() {
           </span>
         </Link>
       </section>
+
+      <ContinueReadingRail />
 
       <Section title={t('home.featured')}>
         {featured.isLoading ? (

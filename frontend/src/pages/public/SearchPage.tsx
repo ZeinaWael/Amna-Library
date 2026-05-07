@@ -7,6 +7,7 @@ import { Pagination } from '../../components/Pagination';
 import { Skeleton } from '../../components/Skeleton';
 import { ErrorState } from '../../components/ErrorState';
 import { EmptyState } from '../../components/EmptyState';
+import { Seo } from '../../components/seo/Seo';
 
 export default function SearchPage() {
   const { t } = useTranslation();
@@ -17,6 +18,11 @@ export default function SearchPage() {
 
   return (
     <div className="mx-auto max-w-6xl space-y-6 px-4 py-8">
+      <Seo
+        title={q ? `${t('common.search')}: ${q}` : t('seo.books.title')}
+        description={t('seo.books.description')}
+        noindex
+      />
       <h1 className="text-2xl font-semibold">
         {t('common.search')}: <span className="text-brand-600">"{q}"</span>
       </h1>

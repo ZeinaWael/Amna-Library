@@ -1,3 +1,9 @@
 {
-  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+  "rewrites": [
+    {
+      "source": "/sitemap.xml",
+      "destination": "https://api-production-acf6.up.railway.app/api/sitemap.xml"
+    },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
 }

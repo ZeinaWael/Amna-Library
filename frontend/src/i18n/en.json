@@ -35,6 +35,7 @@
   "nav": {
     "home": "Home",
     "browse": "Browse",
+    "shelf": "My shelf",
     "admin": "Admin",
     "adminLogin": "Admin login"
   },
@@ -44,7 +45,21 @@
     "browseAll": "Browse the library",
     "featured": "Featured books",
     "recent": "New additions",
-    "latestReviews": "Latest reader reviews"
+    "latestReviews": "Latest reader reviews",
+    "continueReading": {
+      "title": "Continue reading",
+      "dismiss": "Remove from continue reading",
+      "progress": "Page {{page}} of {{total}} · {{percent}}%",
+      "progressUnknown": "Page {{page}}"
+    }
+  },
+  "shelf": {
+    "title": "My shelf",
+    "remove": "Remove from shelf",
+    "empty": {
+      "title": "Your shelf is empty. Heart any book on the library to save it here.",
+      "cta": "Browse the library"
+    }
   },
   "browse": {
     "title": "Browse the library",
@@ -67,6 +82,8 @@
     "reviews": "reviews",
     "readOnline": "Read online",
     "download": "Download",
+    "addToShelf": "Add to my shelf",
+    "removeFromShelf": "Remove from my shelf",
     "description": "About this book",
     "reviewsTitle": "Reader reviews",
     "leaveReview": "Leave a review",
@@ -225,5 +242,21 @@
     "notFound": "Page not found.",
     "goHome": "Go home",
     "unauthorized": "Please sign in to continue."
+  },
+  "seo": {
+    "site": {
+      "name": "Amna Book Library"
+    },
+    "home": {
+      "title": "Amna Book Library — read, borrow, and discover",
+      "description": "The virtual library of Amna Bint Al-Arqam Secondary School — a curated collection of books to read online or download, available anytime, anywhere."
+    },
+    "books": {
+      "title": "Browse the library",
+      "description": "Browse and search the full collection of books in the Amna Library — filter by genre, language, year, and rating."
+    },
+    "shelf": {
+      "title": "My shelf"
+    }
   }
 }

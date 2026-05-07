@@ -52,6 +52,10 @@ export function PublicLayout() {
               <span className="icon me-1 text-[16px] align-middle">menu_book</span>
               {t('nav.browse')}
             </NavLink>
+            <NavLink to="/shelf" className={navClass}>
+              <span className="icon me-1 text-[16px] align-middle">favorite</span>
+              {t('nav.shelf')}
+            </NavLink>
           </nav>
 
           <div className="flex items-center gap-2">

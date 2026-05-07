@@ -14,6 +14,7 @@ namespace BookLibrary.Api.Services;
 public interface IBookService
 {
     Task<PagedResult<BookSummaryDto>> ListPublishedAsync(BookQuery query, CancellationToken ct);
+    Task<List<BookSummaryDto>> ListPublishedByIdsAsync(IReadOnlyList<Guid> ids, CancellationToken ct);
     Task<List<BookSummaryDto>> FeaturedAsync(int take, CancellationToken ct);
     Task<PagedResult<BookSummaryDto>> SearchAsync(BookSearchQuery q, CancellationToken ct);
     Task<BookDetailDto> GetDetailAsync(Guid id, CancellationToken ct);
@@ -54,6 +55,19 @@ public class BookService : IBookService
 
     public async Task<List<BookSummaryDto>> FeaturedAsync(int take, CancellationToken ct) =>
         _mapper.Map<List<BookSummaryDto>>(await _repo.FeaturedAsync(take, ct));
+
+    public async Task<List<BookSummaryDto>> ListPublishedByIdsAsync(IReadOnlyList<Guid> ids, CancellationToken ct)
+    {
+        if (ids.Count == 0) return new List<BookSummaryDto>();
+        var books = await _repo.GetPublishedByIdsAsync(ids, ct);
+        var byId = books.ToDictionary(b => b.Id);
+        var ordered = new List<Book>(ids.Count);
+        foreach (var id in ids)
+        {
+            if (byId.TryGetValue(id, out var b)) ordered.Add(b);
+        }
+        return _mapper.Map<List<BookSummaryDto>>(ordered);
+    }
 
     public async Task<PagedResult<BookSummaryDto>> SearchAsync(BookSearchQuery q, CancellationToken ct)
     {

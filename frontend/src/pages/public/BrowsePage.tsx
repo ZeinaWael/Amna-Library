@@ -6,6 +6,7 @@ import { Pagination } from '../../components/Pagination';
 import { Skeleton } from '../../components/Skeleton';
 import { ErrorState } from '../../components/ErrorState';
 import { EmptyState } from '../../components/EmptyState';
+import { Seo } from '../../components/seo/Seo';
 
 export default function BrowsePage() {
   const { t } = useTranslation();
@@ -15,8 +16,22 @@ export default function BrowsePage() {
 
   const setF = (patch: Partial<BookListFilters>) => setFilters((f) => ({ ...f, ...patch, page: 1 }));
 
+  const seoTitle = (() => {
+    const parts: string[] = [];
+    if (filters.genre) parts.push(filters.genre);
+    if (filters.language) parts.push(filters.language === 'ar' ? 'العربية' : 'English');
+    if (filters.year) parts.push(String(filters.year));
+    return parts.length ? `${t('seo.books.title')} — ${parts.join(' · ')}` : t('seo.books.title');
+  })();
+
   return (
     <div className="mx-auto max-w-6xl space-y-6 px-4 py-8">
+      <Seo
+        title={seoTitle}
+        description={t('seo.books.description')}
+        canonical="/browse"
+        type="website"
+      />
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h1 className="font-display text-3xl font-bold gradient-text">{t('browse.title')}</h1>
         <span className="chip">

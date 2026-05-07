@@ -9,6 +9,7 @@ const HomePage = lazy(() => import('./pages/public/HomePage'));
 const BrowsePage = lazy(() => import('./pages/public/BrowsePage'));
 const SearchPage = lazy(() => import('./pages/public/SearchPage'));
 const BookDetailPage = lazy(() => import('./pages/public/BookDetailPage'));
+const ShelfPage = lazy(() => import('./pages/public/ShelfPage'));
 const ReaderPage = lazy(() => import('./pages/public/ReaderPage'));
 const NotFoundPage = lazy(() => import('./pages/public/NotFoundPage'));
 
@@ -28,6 +29,7 @@ export default function App() {
           <Route path="browse" element={<BrowsePage />} />
           <Route path="search" element={<SearchPage />} />
           <Route path="books/:id" element={<BookDetailPage />} />
+          <Route path="shelf" element={<ShelfPage />} />
         </Route>
         <Route path="books/:id/read" element={<ReaderPage />} />
 

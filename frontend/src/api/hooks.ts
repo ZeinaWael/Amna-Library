@@ -47,6 +47,16 @@ export function useSearchBooks(q: string, page = 1, pageSize = 12) {
   });
 }
 
+export function useBooksByIds(ids: string[]) {
+  return useQuery({
+    queryKey: ['books', 'byIds', ids],
+    queryFn: async () =>
+      (await api.get<BookSummaryDto[]>(`/books/by-ids`, { params: { ids: ids.join(',') } })).data,
+    enabled: ids.length > 0,
+    staleTime: 60_000,
+  });
+}
+
 export function useBook(id: string | undefined) {
   return useQuery({
     queryKey: ['book', id],

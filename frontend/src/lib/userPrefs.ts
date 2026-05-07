@@ -72,14 +72,13 @@ function migrateLegacyKeys(): void {
   }
   safeRemove(LEGACY_KEYS.theme);
 
-  // Locale: keep the legacy `lang` key in place because
-  // i18next-browser-languagedetector still reads from it.
   if (safeGet(PREF_KEYS.locale) == null) {
     const old = safeGet(LEGACY_KEYS.locale);
     if (old === 'en' || old === 'ar') {
       safeSet(PREF_KEYS.locale, old);
     }
   }
+  safeRemove(LEGACY_KEYS.locale);
 }
 
 if (typeof window !== 'undefined') {
@@ -143,9 +142,6 @@ export function getLocale(): Locale {
 export function setLocale(locale: Locale): void {
   if (locale !== 'en' && locale !== 'ar') return;
   safeSet(PREF_KEYS.locale, locale);
-  // Mirror to the legacy `lang` key so i18next-browser-languagedetector
-  // sees the same value on next page load.
-  safeSet(LEGACY_KEYS.locale, locale);
   notify();
 }
 

@@ -32,6 +32,7 @@ export type BookSummaryDto = {
   authorName: string;
   genreId: string;
   genreName: string;
+  pageCount: number | null;
 };
 
 export type BookDetailDto = BookSummaryDto & {

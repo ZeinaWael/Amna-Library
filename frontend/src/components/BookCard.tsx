@@ -1,11 +1,12 @@
 import { Link } from 'react-router-dom';
 import type { BookSummaryDto } from '../types/api';
 import { StarRating } from './StarRating';
+import { HeartButton } from './HeartButton';
 
 export function BookCard({ book }: { book: BookSummaryDto }) {
   return (
     <Link to={`/books/${book.id}`} className="book-card group">
-      <div className="book-cover">
+      <div className="book-cover relative">
         {book.coverUrl ? (
           <img src={book.coverUrl} alt={book.title} loading="lazy" />
         ) : (
@@ -13,6 +14,11 @@ export function BookCard({ book }: { book: BookSummaryDto }) {
             <span className="icon" style={{ fontSize: '2.4rem' }}>menu_book</span>
           </div>
         )}
+        <HeartButton
+          bookId={book.id}
+          size="sm"
+          className="absolute top-2 end-2 z-10 shadow-sm"
+        />
       </div>
       <div className="flex-1 px-1">
         <h3 className="line-clamp-2 text-sm font-semibold leading-snug">{book.title}</h3>

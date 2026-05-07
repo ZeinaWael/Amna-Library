@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /shelf
+
+Sitemap: https://amna-book-library.vercel.app/sitemap.xml
