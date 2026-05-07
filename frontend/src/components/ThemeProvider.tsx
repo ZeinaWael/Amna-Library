@@ -1,31 +1,52 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
+import { useUserPrefs } from '../hooks/useUserPrefs';
+import type { Theme as RawTheme } from '../lib/userPrefs';
 
-type Theme = 'light' | 'dark';
+type Effective = 'light' | 'dark';
 
-const Ctx = createContext<{ theme: Theme; toggle: () => void } | null>(null);
+type Ctx = {
+  theme: Effective;
+  rawTheme: RawTheme;
+  setTheme: (t: RawTheme) => void;
+  toggle: () => void;
+};
+
+const ThemeCtx = createContext<Ctx | null>(null);
+
+function readSystemDark(): boolean {
+  if (typeof window === 'undefined') return false;
+  return window.matchMedia('(prefers-color-scheme: dark)').matches;
+}
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setTheme] = useState<Theme>(() => {
-    if (typeof window === 'undefined') return 'light';
-    const saved = localStorage.getItem('theme');
-    if (saved === 'dark' || saved === 'light') return saved;
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-  });
+  const { theme: rawTheme, setTheme } = useUserPrefs();
+  const [systemDark, setSystemDark] = useState(readSystemDark);
 
   useEffect(() => {
-    document.documentElement.classList.toggle('dark', theme === 'dark');
-    localStorage.setItem('theme', theme);
-  }, [theme]);
+    const mq = window.matchMedia('(prefers-color-scheme: dark)');
+    const handler = (e: MediaQueryListEvent) => setSystemDark(e.matches);
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  }, []);
+
+  const effective: Effective =
+    rawTheme === 'system' ? (systemDark ? 'dark' : 'light') : rawTheme;
+
+  useEffect(() => {
+    document.documentElement.classList.toggle('dark', effective === 'dark');
+  }, [effective]);
+
+  const toggle = () => setTheme(effective === 'dark' ? 'light' : 'dark');
 
   return (
-    <Ctx.Provider value={{ theme, toggle: () => setTheme((t) => (t === 'dark' ? 'light' : 'dark')) }}>
+    <ThemeCtx.Provider value={{ theme: effective, rawTheme, setTheme, toggle }}>
       {children}
-    </Ctx.Provider>
+    </ThemeCtx.Provider>
   );
 }
 
 export function useTheme() {
-  const ctx = useContext(Ctx);
+  const ctx = useContext(ThemeCtx);
   if (!ctx) throw new Error('useTheme must be used within ThemeProvider');
   return ctx;
 }

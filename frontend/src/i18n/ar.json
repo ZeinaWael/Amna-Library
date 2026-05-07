@@ -29,7 +29,8 @@
     "yes": "نعم",
     "no": "لا",
     "confirm": "تأكيد",
-    "all": "الكل"
+    "all": "الكل",
+    "dismiss": "إغلاق"
   },
   "nav": {
     "home": "الرئيسية",
@@ -89,12 +90,23 @@
     "page": "صفحة",
     "zoomIn": "تكبير",
     "zoomOut": "تصغير",
+    "zoomReset": "إعادة ضبط التكبير",
+    "prevPage": "الصفحة السابقة",
+    "nextPage": "الصفحة التالية",
+    "pageIndicator": "صفحة {{current}} / {{total}}",
     "fullscreen": "ملء الشاشة",
     "exitFullscreen": "خروج من ملء الشاشة",
     "focus": "وضع التركيز",
     "exitFocus": "خروج من التركيز",
     "loading": "جارٍ تحميل الملف…",
-    "error": "تعذّر تحميل الكتاب."
+    "error": "تعذّر تحميل الكتاب.",
+    "resumed": "استؤنفت القراءة من الصفحة {{page}}",
+    "goToPage": {
+      "label": "الانتقال إلى صفحة",
+      "placeholder": "#",
+      "submit": "انتقل",
+      "invalid": "رقم الصفحة يجب أن يكون بين {{min}} و {{max}}."
+    }
   },
   "admin": {
     "title": "لوحة التحكم",

@@ -29,7 +29,8 @@
     "yes": "Yes",
     "no": "No",
     "confirm": "Confirm",
-    "all": "All"
+    "all": "All",
+    "dismiss": "Dismiss"
   },
   "nav": {
     "home": "Home",
@@ -89,12 +90,23 @@
     "page": "Page",
     "zoomIn": "Zoom in",
     "zoomOut": "Zoom out",
+    "zoomReset": "Reset zoom",
+    "prevPage": "Previous page",
+    "nextPage": "Next page",
+    "pageIndicator": "Page {{current}} / {{total}}",
     "fullscreen": "Fullscreen",
     "exitFullscreen": "Exit fullscreen",
     "focus": "Focus mode",
     "exitFocus": "Exit focus",
     "loading": "Loading PDF…",
-    "error": "Failed to load this book."
+    "error": "Failed to load this book.",
+    "resumed": "Resumed from page {{page}}",
+    "goToPage": {
+      "label": "Go to page",
+      "placeholder": "#",
+      "submit": "Go",
+      "invalid": "Page number must be between {{min}} and {{max}}."
+    }
   },
   "admin": {
     "title": "Admin",
