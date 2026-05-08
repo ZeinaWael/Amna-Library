@@ -118,6 +118,18 @@ export function useLogin() {
   });
 }
 
+export function useChangePassword() {
+  return useMutation({
+    mutationFn: async (body: {
+      currentPassword: string;
+      newPassword: string;
+      confirmNewPassword: string;
+    }) => {
+      await api.post(`/auth/account/change-password`, body);
+    },
+  });
+}
+
 export function useAdminStats() {
   return useQuery({
     queryKey: ['admin', 'stats'],

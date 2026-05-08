@@ -21,6 +21,9 @@ public class AppDbContext : DbContext
             e.Property(x => x.Email).IsRequired();
             e.Property(x => x.PasswordHash).IsRequired();
             e.Property(x => x.Role).IsRequired();
+            e.Property(x => x.PasswordChangedAt)
+                .IsRequired()
+                .HasDefaultValueSql("CURRENT_TIMESTAMP");
         });
 
         b.Entity<Author>(e =>

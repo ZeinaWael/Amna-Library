@@ -232,6 +232,37 @@
       "unpublished": "Book unpublished.",
       "saveFailed": "Save failed. Please try again.",
       "actionFailed": "Action failed."
+    },
+    "nav": {
+      "account": "Account"
+    },
+    "account": {
+      "title": "Account settings",
+      "subtitle": "Change the password used to sign in to the admin dashboard.",
+      "currentPassword": "Current password",
+      "newPassword": "New password",
+      "confirmNewPassword": "Confirm new password",
+      "show": "Show password",
+      "hide": "Hide password",
+      "submit": "Update password",
+      "success": "Password changed. Please sign in again.",
+      "errors": {
+        "currentIncorrect": "Current password is incorrect.",
+        "tooShort": "At least 12 characters.",
+        "missingUpper": "At least one uppercase letter.",
+        "missingLower": "At least one lowercase letter.",
+        "missingDigit": "At least one digit.",
+        "missingSymbol": "At least one symbol.",
+        "sameAsOld": "Must differ from the current password.",
+        "confirmMismatch": "New password and confirmation must match.",
+        "rateLimited": "Too many attempts. Please wait 15 minutes and try again."
+      },
+      "strength": {
+        "weak": "Weak",
+        "fair": "Fair",
+        "good": "Good",
+        "strong": "Strong"
+      }
     }
   },
   "footer": {

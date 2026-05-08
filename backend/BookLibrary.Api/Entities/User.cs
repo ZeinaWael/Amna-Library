@@ -7,4 +7,5 @@ public class User
     public string PasswordHash { get; set; } = default!;
     public string Role { get; set; } = "Admin";
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    public DateTime PasswordChangedAt { get; set; } = DateTime.UtcNow;
 }

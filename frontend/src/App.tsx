@@ -19,6 +19,7 @@ const AdminBooksPage = lazy(() => import('./pages/admin/AdminBooksPage'));
 const AdminAuthorsPage = lazy(() => import('./pages/admin/AdminAuthorsPage'));
 const AdminGenresPage = lazy(() => import('./pages/admin/AdminGenresPage'));
 const AdminReviewsPage = lazy(() => import('./pages/admin/AdminReviewsPage'));
+const AccountSettingsPage = lazy(() => import('./pages/admin/AccountSettingsPage'));
 
 export default function App() {
   return (
@@ -47,6 +48,7 @@ export default function App() {
           <Route path="authors" element={<AdminAuthorsPage />} />
           <Route path="genres" element={<AdminGenresPage />} />
           <Route path="reviews" element={<AdminReviewsPage />} />
+          <Route path="account" element={<AccountSettingsPage />} />
         </Route>
 
         <Route path="*" element={<NotFoundPage />} />

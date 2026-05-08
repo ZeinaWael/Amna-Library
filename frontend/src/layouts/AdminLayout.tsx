@@ -13,6 +13,7 @@ const ITEMS = [
   { to: '/admin/authors', icon: 'person', key: 'admin.authors' as const },
   { to: '/admin/genres', icon: 'category', key: 'admin.genres' as const },
   { to: '/admin/reviews', icon: 'reviews', key: 'admin.reviews' as const, badge: 'pending' as const },
+  { to: '/admin/account', icon: 'manage_accounts', key: 'admin.nav.account' as const },
 ];
 
 export function AdminLayout() {
